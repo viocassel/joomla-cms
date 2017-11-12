@@ -12,25 +12,45 @@ defined('_JEXEC') or die;
 $title      = $item->anchor_title ? ' title="' . $item->anchor_title . '"' : '';
 $anchor_css = $item->anchor_css ?: '';
 
-$linktype   = $item->title;
+$linktype = $item->title;
 
-if ($item->menu_image)
+if ($item->params->get('menu_subtitle', ''))
+{
+	$linktype .= '<br /><small>' . $item->params->get('menu_subtitle') . '</small>';
+}
+
+if ($item->menu_icon == 'html' && $item->menu_icon_html)
+{
+	$icon = $item->menu_icon_html;
+
+}
+if ($item->menu_icon == 'image' && $item->menu_image)
 {
 	if ($item->menu_image_css)
 	{
 		$image_attributes['class'] = $item->menu_image_css;
-		$linktype = JHtml::_('image', $item->menu_image, $item->title, $image_attributes);
+		$icon = JHtml::_('image', $item->menu_image, $item->title, $image_attributes);
 	}
 	else
 	{
-		$linktype = JHtml::_('image', $item->menu_image, $item->title);
-	}
-
-	if ($item->params->get('menu_text', 1))
-	{
-		$linktype .= '<span class="image-title">' . $item->title . '</span>';
+		$icon = JHtml::_('image', $item->menu_image, $item->title);
 	}
 }
 
+if (!empty($icon))
+{
+	if ($item->params->get('menu_text', 1))
+	{
+		$linktype = ($item->params->get('menu-icon_direction', 'before') == 'after') ?
+			'<span class="image-title image-title-before">' . $linktype . '</span>' . $icon :
+			$icon . '<span class="image-title image-title-after">' . $linktype . '</span>';
+	}
+	else
+	{
+		$linktype = $icon;
+	}
+}
+
+$attributes = $item->params->get('menu-anchor_attrs') ? ' ' . $item->params->get('menu-anchor_attrs') : '';
 ?>
-<span class="nav-header <?php echo $anchor_css; ?>"<?php echo $title; ?>><?php echo $linktype; ?></span>
+<span class="nav-header <?php echo $anchor_css; ?>"<?php echo $title . $attributes; ?>><?php echo $linktype; ?></span>

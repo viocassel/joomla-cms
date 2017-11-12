@@ -37,18 +37,62 @@
 			/>
 
 			<field
+				name="menu-anchor_attrs"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_ANCHOR_ATTRS_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_ATTRS_DESC"
+			/>
+
+			<field
+				name="menu-icon"
+				type="radio"
+				label="COM_MENUS_ITEM_FIELD_MENU_ICON_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_ICON_DESC"
+				class="btn-group btn-group-yesno"
+				default="image"
+			>
+				<option value="image">COM_MENUS_ITEM_FIELD_MENU_ICON_IMAGE</option>
+				<option value="html">COM_MENUS_ITEM_FIELD_MENU_ICON_HTML</option>
+			</field>
+
+			<field
+				name="menu-icon_html"
+				type="textarea"
+				label="COM_MENUS_ITEM_FIELD_MENU_ICON_HTML_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_ICON_HTML_DESC"
+				showon="menu-icon:html"
+				rows="3"
+				cols="5"
+				filter="safehtml"
+			/>
+
+			<field
 				name="menu_image"
 				type="media"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC"
+				showon="menu-icon:image"
 			/>
 
-			<field 
+			<field
 				name="menu_image_css"
-				type="text" 
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
-				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_DESC" 
+				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_DESC"
+				showon="menu-icon:image"
 			/>
+
+			<field
+				name="menu-icon_direction"
+				type="radio"
+				label="COM_MENUS_ITEM_FIELD_MENU_ICON_DIRECTION_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_ICON_DIRECTION_DESC"
+				class="btn-group btn-group-yesno"
+				default="before"
+			>
+				<option value="before">COM_MENUS_ITEM_FIELD_MENU_ICON_DIRECTION_BEFORE</option>
+				<option value="after">COM_MENUS_ITEM_FIELD_MENU_ICON_DIRECTION_AFTER</option>
+			</field>
 
 			<field
 				name="menu_text"
@@ -75,6 +119,13 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
+
+			<field
+				name="menu_subtitle"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_MENU_SUBTITLE_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_SUBTITLE_DESC"
+			/>
 		</fieldset>
 	</fields>
 	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_ALIAS"/>

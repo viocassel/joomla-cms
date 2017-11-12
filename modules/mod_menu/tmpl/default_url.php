@@ -28,21 +28,40 @@ if ($item->anchor_rel)
 
 $linktype = $item->title;
 
-if ($item->menu_image)
+if ($item->params->get('menu_subtitle', ''))
+{
+	$linktype .= '<br /><small>' . $item->params->get('menu_subtitle') . '</small>';
+}
+
+if ($item->menu_icon == 'html' && $item->menu_icon_html)
+{
+	$icon = $item->menu_icon_html;
+
+}
+if ($item->menu_icon == 'image' && $item->menu_image)
 {
 	if ($item->menu_image_css)
 	{
 		$image_attributes['class'] = $item->menu_image_css;
-		$linktype = JHtml::_('image', $item->menu_image, $item->title, $image_attributes);
+		$icon = JHtml::_('image', $item->menu_image, $item->title, $image_attributes);
 	}
 	else
 	{
-		$linktype = JHtml::_('image', $item->menu_image, $item->title);
+		$icon = JHtml::_('image', $item->menu_image, $item->title);
 	}
+}
 
+if (!empty($icon))
+{
 	if ($item->params->get('menu_text', 1))
 	{
-		$linktype .= '<span class="image-title">' . $item->title . '</span>';
+		$linktype = ($item->params->get('menu-icon_direction', 'before') == 'after') ?
+			'<span class="image-title image-title-before">' . $linktype . '</span>' . $icon :
+			$icon . '<span class="image-title image-title-after">' . $linktype . '</span>';
+	}
+	else
+	{
+		$linktype = $icon;
 	}
 }
 
@@ -56,6 +75,20 @@ elseif ($item->browserNav == 2)
 	$options = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,' . $params->get('window_open');
 
 	$attributes['onclick'] = "window.open(this.href, 'targetWindow', '" . $options . "'); return false;";
+}
+
+if ($item->params->get('menu-anchor_attrs', ''))
+{
+	$pattern = '/(\S+)=["\']?((?:.(?!["\']?\s+(?:\S+)=|[>"\']))+.)["\']?/';
+	preg_match_all($pattern, $item->params->get('menu-anchor_attrs'), $anchor_attrs);
+	if (!empty($anchor_attrs[1]))
+	{
+		foreach ($anchor_attrs[1] as $key => $name)
+		{
+			$value             = (!empty($anchor_attrs[2][$key])) ? $anchor_attrs[2][$key] : '';
+			$attributes[$name] = $value;
+		}
+	}
 }
 
 echo JHtml::_('link', JFilterOutput::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);
